@@ -1,0 +1,36 @@
+{
+  "name": "jm-event",
+  "version": "2.0.1",
+  "description": "async event emitter, lightest and fastest",
+  "main": "./lib/index",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/core.git"
+  },
+  "keywords": [
+    "javascript",
+    "event emitter",
+    "EventEmitter",
+    "jm-event"
+  ],
+  "author": {
+    "name": "Jeff YU"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/core/issues"
+  },
+  "homepage": "https://github.com/core",
+  "dependencies": {},
+  "devDependencies": {
+    "benchmark": "^2.1.4",
+    "jest": "^22.4.3",
+    "matcha": "^0.7.0"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  }
+}
