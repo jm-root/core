@@ -1,8 +1,13 @@
 {
-  "workspaces": [
-    "packages/*"
-  ],
   "devDependencies": {
-    "lerna": "^2.11.0"
+    "@babel/core": "^7.0.0-beta.42",
+    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.42",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.42",
+    "@babel/preset-env": "^7.0.0-beta.42",
+    "babel-plugin-transform-async-to-promises": "^0.7.0",
+    "babylon": "^6.18.0",
+    "lerna": "^2.11.0",
+    "rollup": "^0.65.2",
+    "rollup-plugin-babel": "^4.0.3"
   }
 }

@@ -1,9 +1,11 @@
 {
   "name": "jm-event",
-  "version": "2.0.1",
+  "version": "2.0.3",
   "description": "async event emitter, lightest and fastest",
-  "main": "./lib/index",
+  "main": "./dist/index",
+  "module": "./list/index",
   "scripts": {
+    "build": "rollup -c rollup.config.js",
     "test": "jest"
   },
   "repository": {
