@@ -1,0 +1,35 @@
+{
+  "name": "jm-logger",
+  "version": "2.1.0",
+  "description": "logger",
+  "main": "./dist/index",
+  "module": "./lib/index",
+  "scripts": {
+    "build": "rollup -c rollup.config.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jm-root/core.git"
+  },
+  "keywords": [
+    "javascript",
+    "logger",
+    "jm-logger"
+  ],
+  "author": {
+    "name": "Jeff YU"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jm-root/core/issues"
+  },
+  "homepage": "https://github.com/jm-root/core",
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^22.4.3"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  }
+}
