@@ -12,9 +12,9 @@ const baseConfig = {
       exports: 'named'
     },
     {
-      file: join(cwd, 'dist/jm-event.js'),
+      file: join(cwd, 'dist/jm-logger.js'),
       format: 'umd',
-      name: 'jm-event',
+      name: 'jm-logger',
       sourcemap: true,
       exports: 'named'
     }

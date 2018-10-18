@@ -116,4 +116,4 @@
   module.exports = $;
 
 })));
-//# sourceMappingURL=jm-event.js.map
+//# sourceMappingURL=jm-logger.js.map
