@@ -1,6 +1,7 @@
 const event = require('jm-event')
 const HeartBeat = require('./heartbeat')
 
+const PingFailedCode = 4999 // 心跳失败后，关闭 code, 4000 至 4999 之间
 const MaxReconnectAttempts = 0 // 默认重试次数0 表示无限制
 const ReconnectTimeout = 3000 // 默认自动重连延时 3 秒
 
@@ -8,10 +9,12 @@ class WebSocket {
   constructor (opts = {}) {
     event.enableEvent(this)
 
-    const {Adapter, timeout = 0, reconnect = true, reconnectTimeout = ReconnectTimeout, reconnectAttempts = MaxReconnectAttempts} = opts
+    const {Adapter, timeout = 0, reconnect = true, reconnectTimeout = ReconnectTimeout, reconnectAttempts = MaxReconnectAttempts, pingFailedCode = PingFailedCode} = opts
 
     if (!Adapter) throw new Error('invalid Adapter')
     this.Adapter = Adapter
+
+    this.pingFailedCode = pingFailedCode
 
     this.reconnect = reconnect
     this.reconnectTimeout = reconnectTimeout
@@ -32,7 +35,8 @@ class WebSocket {
         return this.emit('heartBeat')
       })
       .on('heartDead', () => {
-        this.close(4000, 'heartbeat timeout')
+        if (this.emit('heartDead')) return
+        this.close(this.pingFailedCode, 'heartbeat timeout')
       })
   }
 
@@ -113,7 +117,7 @@ class WebSocket {
           this.connecting = null
 
           const {wasClean = true, code} = opts
-          if (wasClean && code !== 4000) return
+          if (wasClean && code !== this.pingFailedCode) return
           if (this.reconnect) {
             this._reconnect()
           }
@@ -149,5 +153,7 @@ class WebSocket {
 
 WebSocket.MaxReconnectAttempts = MaxReconnectAttempts
 WebSocket.ReconnectTimeout = ReconnectTimeout
+
+WebSocket.PingFailedCode = PingFailedCode
 
 module.exports = WebSocket

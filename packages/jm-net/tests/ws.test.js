@@ -20,8 +20,14 @@ ws
   .on('error', opts => {
     // logger.debug('error', opts.error)
   })
+  .on('message', opts => {
+    logger.debug('received', opts)
+  })
   .on('heartBeat', () => {
     logger.debug('heartBeat')
+  })
+  .on('heartDead', () => {
+    logger.debug('heartDead')
   })
   .on('connect', () => {
     logger.debug('connecting...')
@@ -31,9 +37,6 @@ ws
   })
   .on('connectFail', () => {
     logger.debug('connectFail')
-  })
-  .on('message', opts => {
-    logger.debug('received', opts)
   })
 
 test('opts', async () => {
@@ -54,6 +57,9 @@ test('connect and close', async () => {
   expect(!ws.ready).toBeTruthy()
 })
 
+/**
+ * 模拟心跳失败2次，测试是否会自动重连
+ */
 test('heartBeat fail', async () => {
   await ws.connect(uri)
   return new Promise((reslove, reject) => {

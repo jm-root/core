@@ -1,6 +1,6 @@
 {
   "name": "jm-net",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "net",
   "main": "./dist/index",
   "module": "./lib/index",
