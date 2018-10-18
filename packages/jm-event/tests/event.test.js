@@ -7,8 +7,11 @@ let disableEvent = event.disableEvent
 describe('event', () => {
   let test1 = function (o) {
     let i = 0
-    o.on('test', function (v) {
-      expect(v === '123').toBeTruthy()
+    o.on('test', function (v, v2, a, b, c) {
+      expect(v === '123' && v2 === '456').toBeTruthy()
+      expect(a === 1).toBeTruthy()
+      expect(b === 2).toBeTruthy()
+      expect(c === 3).toBeTruthy()
       i++
     })
     o.on('test', function (v) {
@@ -21,7 +24,7 @@ describe('event', () => {
       expect(v === '123').toBeTruthy()
       i++
     })
-    o.emit('test', '123')
+    o.emit('test', '123', '456', 1, 2, 3)
     expect(i === 2).toBeTruthy()
   }
 

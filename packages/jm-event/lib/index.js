@@ -3,12 +3,12 @@
  * @module event
  */
 
-async function emitAsync (eventName, arg1, arg2, arg3, arg4, arg5) {
+async function emitAsync (eventName, ...args) {
   // using a copy to avoid error when listener array changed
   let listeners = this.listeners(eventName)
   for (let i = 0; i < listeners.length; i++) {
     let fn = listeners[i]
-    let obj = fn(arg1, arg2, arg3, arg4, arg5)
+    let obj = fn(...args)
     if (!!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function') obj = await obj
     if (obj !== undefined) return obj
   }
@@ -145,12 +145,12 @@ class EventEmitter {
    * @param {*} arg5
    * @return {EventEmitter} - for chaining
    */
-  emit (eventName, arg1, arg2, arg3, arg4, arg5) {
+  emit (eventName, ...args) {
     // using a copy to avoid error when listener array changed
     let listeners = this.listeners(eventName)
     for (let i = 0; i < listeners.length; i++) {
       let fn = listeners[i]
-      let obj = fn(arg1, arg2, arg3, arg4, arg5)
+      let obj = fn(...args)
       if (!!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function') {
       } else {
         if (obj !== undefined) return obj

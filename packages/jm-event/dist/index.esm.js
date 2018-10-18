@@ -282,9 +282,13 @@ function _await(value, then, direct) {
  * event module.
  * @module event
  */
-var emitAsync = _async(function (eventName, arg1, arg2, arg3, arg4, arg5) {
+var emitAsync = _async(function (eventName) {
   var _this = this,
       _exit = false;
+
+  for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    args[_key - 1] = arguments[_key];
+  }
 
   // using a copy to avoid error when listener array changed
   var listeners = _this.listeners(eventName);
@@ -296,7 +300,7 @@ var emitAsync = _async(function (eventName, arg1, arg2, arg3, arg4, arg5) {
     return i++;
   }, function () {
     var fn = listeners[i];
-    var obj = fn(arg1, arg2, arg3, arg4, arg5);
+    var obj = fn.apply(void 0, args);
     return _invoke(function () {
       if (!!obj && (_typeof(obj) === 'object' || typeof obj === 'function') && typeof obj.then === 'function') return _await(obj, function (_obj) {
         obj = _obj;
@@ -467,13 +471,17 @@ function () {
 
   }, {
     key: "emit",
-    value: function emit(eventName, arg1, arg2, arg3, arg4, arg5) {
+    value: function emit(eventName) {
       // using a copy to avoid error when listener array changed
       var listeners = this.listeners(eventName);
 
+      for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+        args[_key2 - 1] = arguments[_key2];
+      }
+
       for (var _i2 = 0; _i2 < listeners.length; _i2++) {
         var fn = listeners[_i2];
-        var obj = fn(arg1, arg2, arg3, arg4, arg5);
+        var obj = fn.apply(void 0, args);
 
         if (!!obj && (_typeof(obj) === 'object' || typeof obj === 'function') && typeof obj.then === 'function') ; else {
           if (obj !== undefined) return obj;
