@@ -9,7 +9,7 @@ class WebSocket {
   constructor (opts = {}) {
     event.enableEvent(this)
 
-    const {Adapter, timeout = 0, reconnect = true, reconnectTimeout = ReconnectTimeout, reconnectAttempts = MaxReconnectAttempts, pingFailedCode = PingFailedCode} = opts
+    const {Adapter, reconnect = true, reconnectTimeout = ReconnectTimeout, reconnectAttempts = MaxReconnectAttempts, pingFailedCode = PingFailedCode} = opts
 
     if (!Adapter) throw new Error('invalid Adapter')
     this.Adapter = Adapter
