@@ -1,0 +1,38 @@
+{
+  "name": "jm-net",
+  "version": "1.0.0",
+  "description": "net",
+  "main": "./dist/index",
+  "module": "./lib/index",
+  "scripts": {
+    "build": "rollup -c rollup.config.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jm-root/core.git"
+  },
+  "keywords": [
+    "javascript",
+    "net",
+    "jm-net"
+  ],
+  "author": {
+    "name": "Jeff YU"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jm-root/core/issues"
+  },
+  "homepage": "https://github.com/jm-root/core",
+  "dependencies": {
+    "jm-event": "^2.0.5"
+  },
+  "devDependencies": {
+    "jest": "^22.4.3",
+    "jm-logger": "^2.1.0"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  }
+}
