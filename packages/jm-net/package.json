@@ -1,8 +1,9 @@
 {
   "name": "jm-net",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "net",
   "main": "index.js",
+  "module": "./dist/index.esm.js",
   "scripts": {
     "build": "rollup -c rollup.config.js",
     "test": "jest"
