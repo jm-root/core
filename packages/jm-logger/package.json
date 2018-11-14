@@ -1,6 +1,6 @@
 {
   "name": "jm-logger",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "logger",
   "main": "./dist/index",
   "module": "./dist/index.esm.js",

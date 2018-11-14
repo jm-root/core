@@ -24,9 +24,9 @@ class Logger {
           this[level] = none
         } else {
           if (level === 'debug') {
-            this[level] = console.log
+            this[level] = console.log.bind(console)
           } else {
-            this[level] = console[level]
+            this[level] = console[level].bind(console)
           }
         }
       })

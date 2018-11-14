@@ -2,3 +2,4 @@
 .idea
 .svn
 tests
+rollup.config.js

@@ -56,9 +56,9 @@ function () {
           _this[level] = none;
         } else {
           if (level === 'debug') {
-            _this[level] = console.log;
+            _this[level] = console.log.bind(console);
           } else {
-            _this[level] = console[level];
+            _this[level] = console[level].bind(console);
           }
         }
       });
