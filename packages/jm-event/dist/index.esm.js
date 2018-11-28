@@ -537,12 +537,17 @@ var EM = {
 var enableEvent = function enableEvent(obj) {
   var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   if (obj.emit !== undefined && !opts.force) return false;
+  var _events = null;
+
+  if (obj.emit !== undefined) {
+    _events = obj._events;
+  }
 
   for (var key in EM) {
     obj[key] = EM[key];
   }
 
-  obj._events = {};
+  _events && (obj._events = _events);
   if (opts.async) obj.emit = emitAsync;
   return true;
 };

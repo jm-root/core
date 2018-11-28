@@ -196,10 +196,14 @@ let EM = {
 
 let enableEvent = (obj, opts = {}) => {
   if (obj.emit !== undefined && !opts.force) return false
+  let _events = null
+  if (obj.emit !== undefined) {
+    _events = obj._events
+  }
   for (let key in EM) {
     obj[key] = EM[key]
   }
-  obj._events = {}
+  _events && (obj._events = _events)
   if (opts.async) obj.emit = emitAsync
   return true
 }

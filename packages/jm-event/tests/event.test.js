@@ -119,4 +119,16 @@ describe('event', () => {
     disableEvent(o)
     expect(o.emit === undefined).toBeTruthy()
   })
+
+  test('enableEvent force', () => {
+    let o = {}
+    enableEvent(o)
+    o
+      .on('test', v => {console.log('test', v)})
+      .emit('test', 123)
+
+    // 保留事件
+    expect(enableEvent(o, {force: true})).toBeTruthy()
+    o.emit('test', 1234)
+  })
 })

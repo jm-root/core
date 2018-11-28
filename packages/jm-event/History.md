@@ -1,5 +1,8 @@
 # History
 
+## 2.0.7 / 2018-11-28
+- keep events on force enableEvent
+
 ## 2.0.1 / 2018-08-17
 - async + force
 
