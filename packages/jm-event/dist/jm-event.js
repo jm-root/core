@@ -553,7 +553,7 @@
       obj[key] = EM[key];
     }
 
-    _events && (obj._events = _events);
+    obj._events = _events || {};
     if (opts.async) obj.emit = emitAsync;
     return true;
   };
