@@ -550,6 +550,7 @@ var enableEvent = function enableEvent(obj) {
   }
 
   obj._events = _events || {};
+  if (opts.clean && _events) obj._events = {};
   if (opts.async) obj.emit = emitAsync;
   return true;
 };

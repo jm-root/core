@@ -68,6 +68,8 @@ o
 
 ```
 o.off('test')
+
+o.off() // 清除所有监听
 ```
 
 --
@@ -81,6 +83,13 @@ o.emit('test', {name: 'jeff'}, 'test intro')
 ---
 
 ## 为对象增加事件支持 enableEvent
+
+enableEvent(obj, opts)
+
+参数 opts
+- force
+- async
+- clean
 
 ---
 

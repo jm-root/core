@@ -1,4 +1,4 @@
-const event = require('../')
+const event = require('../lib')
 
 let EventEmitter = event.EventEmitter
 let enableEvent = event.enableEvent
@@ -130,5 +130,9 @@ describe('event', () => {
     // 保留事件
     expect(enableEvent(o, {force: true})).toBeTruthy()
     o.emit('test', 1234)
+
+    // 清除事件
+    expect(enableEvent(o, {force: true, clean: true})).toBeTruthy()
+    o.emit('test', 12345)
   })
 })

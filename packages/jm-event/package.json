@@ -1,6 +1,6 @@
 {
   "name": "jm-event",
-  "version": "2.0.8",
+  "version": "2.0.9",
   "description": "async event emitter, lightest and fastest",
   "main": "./dist/index",
   "module": "./dist/index.esm.js",
