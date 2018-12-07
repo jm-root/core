@@ -1,5 +1,4 @@
 const event = require('jm-event')
-const {logger} = require('jm-logger')
 const WebSocket = require('ws')
 
 module.exports = class Adapter {
@@ -22,7 +21,6 @@ module.exports = class Adapter {
     }
 
     this.ws = ws
-
   }
 
   send () {

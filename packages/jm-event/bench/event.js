@@ -1,33 +1,32 @@
 'use strict'
 
 const benchmark = require('benchmark')
-const crypto = require('crypto')
 const event = require('../')
 
 var o = {}
 event.enableEvent(o)
 
-var count_test1 = 0
-var count_test2 = 0
-var count_test3 = 0
+var countTest1 = 0
+var countTest2 = 0
+var countTest3 = 0
 o
   .on('test1', function () {
-    count_test1++
+    countTest1++
   })
   .on('test2', function () {
-    count_test2++
+    countTest2++
   })
   .on('test2', function () {
-    count_test2++
+    countTest2++
   })
   .on('test3', function () {
-    count_test3++
+    countTest3++
   })
   .on('test3', function () {
-    count_test3++
+    countTest3++
   })
   .on('test3', function () {
-    count_test3++
+    countTest3++
   })
 
 const suite = new benchmark.Suite()
@@ -55,11 +54,11 @@ suite
   })
   .on('complete', function () {
     console.log('Fastest is ' + this.filter('fastest').map('name'))
-    console.log('count t1:%s t2:%s t3:%s ', count_test1, count_test2, count_test3)
+    console.log('count t1:%s t2:%s t3:%s ', countTest1, countTest2, countTest3)
   })
 
 if (require.main === module) {
-  suite.run({async: true})
+  suite.run({ async: true })
 } else {
   module.exports = suite
 }

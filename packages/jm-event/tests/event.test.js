@@ -124,15 +124,15 @@ describe('event', () => {
     let o = {}
     enableEvent(o)
     o
-      .on('test', v => {console.log('test', v)})
+      .on('test', v => { console.log('test', v) })
       .emit('test', 123)
 
     // 保留事件
-    expect(enableEvent(o, {force: true})).toBeTruthy()
+    expect(enableEvent(o, { force: true })).toBeTruthy()
     o.emit('test', 1234)
 
     // 清除事件
-    expect(enableEvent(o, {force: true, clean: true})).toBeTruthy()
+    expect(enableEvent(o, { force: true, clean: true })).toBeTruthy()
     o.emit('test', 12345)
   })
 })

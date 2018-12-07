@@ -1,7 +1,5 @@
 const event = require('../')
-let EventEmitter = event.EventEmitter
 let enableEvent = event.enableEvent
-let disableEvent = event.disableEvent
 
 var eventHandle = function (opts, intro) {
   console.info('1.', opts, intro)
@@ -26,7 +24,7 @@ function test (o) {
 }
 
 // 注意参数 async 导致eventHandle3不会被执行
-var o = new event.EventEmitter({async: true})
+var o = new event.EventEmitter({ async: true })
 test(o)
 
 o = {}

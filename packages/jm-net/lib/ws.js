@@ -9,7 +9,7 @@ class WebSocket {
   constructor (opts = {}) {
     event.enableEvent(this)
 
-    const {Adapter, reconnect = true, reconnectTimeout = ReconnectTimeout, reconnectAttempts = MaxReconnectAttempts, pingFailedCode = PingFailedCode} = opts
+    const { Adapter, reconnect = true, reconnectTimeout = ReconnectTimeout, reconnectAttempts = MaxReconnectAttempts, pingFailedCode = PingFailedCode } = opts
 
     if (!Adapter) throw new Error('invalid Adapter')
     this.Adapter = Adapter
@@ -41,7 +41,7 @@ class WebSocket {
   }
 
   get ready () {
-    return this.ws ? true : false
+    return !!this.ws
   }
 
   onReady () {
@@ -76,7 +76,7 @@ class WebSocket {
   }
 
   async _connect () {
-    const {uri} = this
+    const { uri } = this
 
     if (!uri) throw new Error('invalid uri')
 
@@ -85,7 +85,6 @@ class WebSocket {
     this.emit('connect')
 
     return new Promise((resolve, reject) => {
-
       let ws = null
       try {
         ws = new this.Adapter(uri)
@@ -116,7 +115,7 @@ class WebSocket {
           this.ws = null
           this.connecting = null
 
-          const {wasClean = true, code} = opts
+          const { wasClean = true, code } = opts
           if (wasClean && code !== this.pingFailedCode) return
           if (this.reconnect) {
             this._reconnect()
@@ -148,7 +147,6 @@ class WebSocket {
     }
     this.reconnectAttempts = 0
   }
-
 }
 
 WebSocket.MaxReconnectAttempts = MaxReconnectAttempts

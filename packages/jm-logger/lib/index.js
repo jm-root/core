@@ -45,7 +45,7 @@ let loggers = {}
 
 let getLogger = (loggerCategoryName = 'default') => {
   if (!loggers[loggerCategoryName]) {
-    loggers[loggerCategoryName] = new Logger({category: loggerCategoryName})
+    loggers[loggerCategoryName] = new Logger({ category: loggerCategoryName })
   }
   return loggers[loggerCategoryName]
 }

@@ -1,13 +1,13 @@
-const {WebSocket} = require('../lib')
+const { WebSocket } = require('../lib')
 const Adapter = require('./ws')
-const {logger} = require('jm-logger')
+const { logger } = require('jm-logger')
 
 const reconnectTimeout = 1000
 const reconnectAttempts = 0
 const pingTimeout = 500
 const pongTimeout = 500
 
-const ws = new WebSocket({Adapter, reconnectTimeout, reconnectAttempts, pingTimeout, pongTimeout})
+const ws = new WebSocket({ Adapter, reconnectTimeout, reconnectAttempts, pingTimeout, pongTimeout })
 const uri = 'http://gateway.test.jamma.cn'
 
 ws
@@ -40,14 +40,13 @@ ws
   })
 
 test('opts', async () => {
-  let o = new WebSocket({Adapter})
+  let o = new WebSocket({ Adapter })
   expect(o.reconnectTimeout === WebSocket.ReconnectTimeout).toBeTruthy()
   expect(o.maxReconnectAttempts === WebSocket.MaxReconnectAttempts).toBeTruthy()
 
   o = ws
   expect(o.reconnectTimeout === reconnectTimeout).toBeTruthy()
   expect(o.maxReconnectAttempts === reconnectAttempts).toBeTruthy()
-
 })
 
 test('connect and close', async () => {
@@ -62,7 +61,7 @@ test('connect and close', async () => {
  */
 test('heartBeat fail', async () => {
   await ws.connect(uri)
-  return new Promise((reslove, reject) => {
+  return new Promise((resolve, reject) => {
     let times = 0
     ws
       .off('heartBeat')
@@ -73,7 +72,7 @@ test('heartBeat fail', async () => {
       .on('close', () => {
         times++
         if (times === 2) {
-          reslove()
+          resolve()
           ws
             .off('heartBeat')
             .close()

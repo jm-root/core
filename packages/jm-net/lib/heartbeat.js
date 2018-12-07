@@ -7,7 +7,7 @@ class HeartBeat {
   constructor (opts = {}) {
     event.enableEvent(this)
 
-    const {pingTimeout = PingTimeout, pongTimeout = PongTimeout} = opts
+    const { pingTimeout = PingTimeout, pongTimeout = PongTimeout } = opts
 
     this.pingTimeout = pingTimeout
     this.pongTimeout = pongTimeout
@@ -20,7 +20,7 @@ class HeartBeat {
   }
 
   start () {
-    const {pingTimeout, pongTimeout} = this
+    const { pingTimeout, pongTimeout } = this
     this.pingTimer = setTimeout(() => {
       if (this.emit('heartBeat')) {
         this.pongTimer = setTimeout(() => {
