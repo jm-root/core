@@ -77,6 +77,15 @@ heart.on('heartBeat', ()=>{
 
 - heartDead
 
+---
+
+### 心跳流程
+
+1. 启动心跳 start
+1. pingTimeout 后产生 heartBeat 事件
+1. 监听和处理 heartBeat 事件, 并且返回 true
+1. pongTimeout 时间内复位 reset, 完成正常心跳, 返回步骤1，进入下一次心跳
+1. 如果 pongTimeout 后, 未调用复位，表示 心跳超时，产生 heartDead 事件，心跳异常结束
 
 ---
 
