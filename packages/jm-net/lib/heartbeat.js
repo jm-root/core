@@ -26,6 +26,8 @@ class HeartBeat {
         this.pongTimer = setTimeout(() => {
           this.emit('heartDead')
         }, pongTimeout)
+      } else {
+        console.warn('heartBeat event was not be correctly handled. heart beat is disabled')
       }
     }, pingTimeout)
     return this

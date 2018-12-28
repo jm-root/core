@@ -1,4 +1,4 @@
-const { WebSocket } = require('../lib')
+const { WebSocket, HeartBeat } = require('../lib')
 const Adapter = require('./ws')
 const { logger } = require('jm-logger')
 
@@ -43,10 +43,16 @@ test('opts', async () => {
   let o = new WebSocket({ Adapter })
   expect(o.reconnectTimeout === WebSocket.ReconnectTimeout).toBeTruthy()
   expect(o.maxReconnectAttempts === WebSocket.MaxReconnectAttempts).toBeTruthy()
+  let h = o.heart
+  expect(h.pingTimeout === HeartBeat.PingTimeout).toBeTruthy()
+  expect(h.pongTimeout === HeartBeat.PongTimeout).toBeTruthy()
 
   o = ws
   expect(o.reconnectTimeout === reconnectTimeout).toBeTruthy()
   expect(o.maxReconnectAttempts === reconnectAttempts).toBeTruthy()
+  h = o.heart
+  expect(h.pingTimeout === pingTimeout).toBeTruthy()
+  expect(h.pongTimeout === pongTimeout).toBeTruthy()
 })
 
 test('connect and close', async () => {
@@ -63,19 +69,27 @@ test('heartBeat fail', async () => {
   await ws.connect(uri)
   return new Promise((resolve, reject) => {
     let times = 0
+    let oktimes = 0
     ws
       .off('heartBeat')
       .on('heartBeat', () => {
         logger.debug('heartBeat')
+        oktimes++
+        if (oktimes <= 2) {
+          setTimeout(() => {
+            ws.heart.reset()
+          }, 100)
+        }
         return true
       })
       .on('close', () => {
         times++
         if (times === 2) {
           resolve()
-          ws
-            .off('heartBeat')
-            .close()
+
+          setTimeout(() => {
+            ws.close()
+          }, 2000)
         }
       })
   })

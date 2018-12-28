@@ -19,8 +19,7 @@ test('opts', async () => {
 test('reset', async () => {
   heart
     .off()
-    .stop()
-    .start()
+    .reset()
 
   let times = 0
   return new Promise((resolve, reject) => {
@@ -39,25 +38,22 @@ test('reset', async () => {
 
         return true
       })
-      .on('heartDead', () => {
-        logger.debug('heartDead', times)
-        reject(new Error('heartDead'))
-      })
   })
 })
 
 test('dead', async () => {
   heart
     .off()
-    .stop()
-    .start()
+    .reset()
 
   return new Promise((resolve) => {
     heart
       .on('heartBeat', () => {
+        console.log('heartBeat')
         return true
       })
       .on('heartDead', () => {
+        console.log('heartDead')
         resolve()
       })
   })

@@ -88,6 +88,8 @@ function () {
           _this.pongTimer = setTimeout(function () {
             _this.emit('heartDead');
           }, pongTimeout);
+        } else {
+          console.warn('heartBeat event was not be correctly handled. heart beat is disabled');
         }
       }, pingTimeout);
       return this;
@@ -167,7 +169,6 @@ function () {
 
     jmEvent.enableEvent(this);
     var Adapter = opts.Adapter,
-        _opts$timeout = opts.timeout,
         _opts$reconnect = opts.reconnect,
         reconnect = _opts$reconnect === void 0 ? true : _opts$reconnect,
         _opts$reconnectTimeou = opts.reconnectTimeout,
@@ -339,7 +340,7 @@ function () {
   }, {
     key: "ready",
     get: function get() {
-      return this.ws ? true : false;
+      return !!this.ws;
     }
   }]);
 
