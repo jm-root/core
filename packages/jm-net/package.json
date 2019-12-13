@@ -5,7 +5,7 @@
   "main": "index.js",
   "module": "./dist/index.esm.js",
   "scripts": {
-    "build": "rollup -c rollup.config.js",
+    "build": "npx rollup -c rollup.config.js",
     "test": "jest"
   },
   "repository": {
