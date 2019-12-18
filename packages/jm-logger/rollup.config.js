@@ -1,5 +1,7 @@
 const { join } = require('path')
 const babel = require('rollup-plugin-babel')
+const commonjs = require('rollup-plugin-commonjs')
+const resolve = require('rollup-plugin-node-resolve')
 const cwd = __dirname
 
 const baseConfig = {
@@ -20,6 +22,11 @@ const baseConfig = {
     }
   ],
   plugins: [
+    commonjs(),
+    resolve({
+      preferBuiltins: false,
+      modulesOnly: true
+    }),
     babel({
       babelrc: false,
       presets: [

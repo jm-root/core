@@ -2,7 +2,7 @@
   "name": "jm-logger",
   "version": "2.1.3",
   "description": "logger",
-  "main": "./dist/index",
+  "main": "index.js",
   "module": "./dist/index.esm.js",
   "scripts": {
     "build": "npx rollup -c rollup.config.js",

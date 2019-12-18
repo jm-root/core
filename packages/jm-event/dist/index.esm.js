@@ -566,5 +566,7 @@ var $ = {
   enableEvent: enableEvent,
   disableEvent: disableEvent
 };
-module.exports = $;
+var lib = $;
+
+export default lib;
 //# sourceMappingURL=index.esm.js.map

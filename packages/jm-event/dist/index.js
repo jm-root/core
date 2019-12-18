@@ -1,5 +1,7 @@
 'use strict';
 
+Object.defineProperty(exports, '__esModule', { value: true });
+
 function _typeof(obj) {
   if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
     _typeof = function (obj) {
@@ -568,5 +570,7 @@ var $ = {
   enableEvent: enableEvent,
   disableEvent: disableEvent
 };
-module.exports = $;
+var lib = $;
+
+exports.default = lib;
 //# sourceMappingURL=index.js.map

@@ -1,5 +1,7 @@
 'use strict';
 
+Object.defineProperty(exports, '__esModule', { value: true });
+
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -109,5 +111,7 @@ var $ = {
   getLogger: getLogger,
   moduleLogger: moduleLogger
 };
-module.exports = $;
+var lib = $;
+
+exports.default = lib;
 //# sourceMappingURL=index.js.map
