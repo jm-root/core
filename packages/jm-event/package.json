@@ -27,11 +27,7 @@
   },
   "homepage": "https://github.com/core",
   "dependencies": {},
-  "devDependencies": {
-    "benchmark": "^2.1.4",
-    "jest": "^22.4.3",
-    "matcha": "^0.7.0"
-  },
+  "devDependencies": {},
   "jest": {
     "testEnvironment": "node"
   }
