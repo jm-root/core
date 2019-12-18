@@ -1,0 +1,32 @@
+{
+  "name": "jm-utils",
+  "version": "1.0.3",
+  "description": "utils",
+  "main": "index.js",
+  "module": "./dist/index.esm.js",
+  "scripts": {
+    "build": "npx rollup -c rollup.config.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/core.git"
+  },
+  "keywords": [
+    "javascript",
+    "jm-utils"
+  ],
+  "author": {
+    "name": "Jeff YU"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/core/issues"
+  },
+  "homepage": "https://github.com/core",
+  "dependencies": {},
+  "devDependencies": {},
+  "jest": {
+    "testEnvironment": "node"
+  }
+}
