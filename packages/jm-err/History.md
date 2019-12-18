@@ -1,5 +1,8 @@
 # History
 
+## 1.0.7 / 2019-12-18
+- just change version
+
 ## 1.0.6 / 2019-12-13
 - fixed FA_EXISTS.err = 10
 - add FA_VALIDATION
