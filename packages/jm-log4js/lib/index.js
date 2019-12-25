@@ -1,11 +1,17 @@
 const log4js = require('log4js')
+
+function plus (log) {
+  if (log.setLevel) return
+  log.setLevel = function (level) { this.level = level }
+}
+
 const getLogger = (loggerCategoryName) => {
   const log = log4js.getLogger(loggerCategoryName)
-  log.setLevel = function (level) { this.level = level }
+  plus(log)
   return log
 }
 const logger = getLogger()
-logger.setLevel = function (level) { this.level = level }
+plus(logger)
 
 const $ = function () {
   const obj = this
