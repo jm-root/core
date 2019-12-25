@@ -5,3 +5,4 @@ bench
 examples
 tests
 rollup.config.js
+*.md
