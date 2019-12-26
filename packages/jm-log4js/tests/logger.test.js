@@ -1,5 +1,5 @@
 const { Modulable } = require('jm-module')
-const mdl = require('../lib')
+const { moduleLogger, logger, getLogger } = require('../lib')
 
 const v = ['debug', 'info', 'warn', 'error']
 function log (logger) {
@@ -8,18 +8,21 @@ function log (logger) {
 }
 
 describe('logger', function () {
-  let jm = new Modulable().use(mdl)
-
-  it('jm.logger', function () {
-    expect(jm.logger).toBeTruthy()
-    expect(mdl).toBeTruthy()
-    log(jm.logger)
+  it('logger and getLogger', function () {
+    log(getLogger('main'))
+    log(logger)
   })
 
-  it('jm.getLogger', function () {
-    expect(jm.getLogger).toBeTruthy()
-    let logger = jm.getLogger('main')
-    expect(logger).toBeTruthy()
-    log(logger)
+  it('moduleLogger', function () {
+    const obj = new Modulable()
+      .use(moduleLogger)
+
+    expect(obj.logger).toBeTruthy()
+    expect(getLogger).toBeTruthy()
+
+    log(obj.getLogger('main'))
+    log(obj.logger)
+
+    obj.unuse('logger')
   })
 })

@@ -1,19 +1,13 @@
 const log4js = require('log4js')
 
-function plus (log) {
-  if (log.setLevel) return
-  log.setLevel = function (level) { this.level = level }
-}
-
 const getLogger = (loggerCategoryName) => {
   const log = log4js.getLogger(loggerCategoryName)
-  plus(log)
+  log.setLevel || (log.setLevel = function (level) { this.level = level })
   return log
 }
 const logger = getLogger()
-plus(logger)
 
-const $ = function () {
+const moduleLogger = function (name = 'logger') {
   const obj = this
   const old = {
     getLogger: obj.getLogger,
@@ -23,14 +17,17 @@ const $ = function () {
   Object.assign(obj, { getLogger, logger })
 
   return {
-    name: 'jm-log4js',
+    name,
     unuse: function () {
       Object.assign(obj, old)
     }
   }
 }
 
-$.getLogger = getLogger
-$.logger = logger
+const $ = {
+  logger: getLogger(),
+  getLogger,
+  moduleLogger
+}
 
 module.exports = $

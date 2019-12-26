@@ -1,6 +1,6 @@
 const { Modulable } = require('jm-module')
 
-const mdl = require('../')
+const { moduleLogger, logger, getLogger } = require('../')
 
 const v = ['debug', 'info', 'warn']
 function log (logger) {
@@ -9,11 +9,11 @@ function log (logger) {
   logger.error(new Error('error test'))
 }
 
-log(mdl.logger)
-log(mdl.getLogger('main'))
+log(logger)
+log(getLogger('main'))
 
 const m = new Modulable()
-m.use(mdl)
+m.use(moduleLogger)
 
 log(m.logger)
 log(m.getLogger('main'))

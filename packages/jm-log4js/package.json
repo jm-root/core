@@ -1,6 +1,6 @@
 {
   "name": "jm-log4js",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "log4js module",
   "main": "./lib/index",
   "scripts": {
