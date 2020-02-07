@@ -12,3 +12,5 @@ console.log(utils.formatJSON(o))
 
 console.log(utils.getUriProtocol('http://test.com'))
 console.log(utils.getUriPath('http://test.com/abc/123/?acd=123'))
+
+console.log(utils.arg2bool('true'))

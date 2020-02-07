@@ -1,3 +1,5 @@
+const { arg2bool, arg2number } = require('./argv')
+
 let argsClass = '[object Arguments]'
 let arrayClass = '[object Array]'
 let boolClass = '[object Boolean]'
@@ -125,7 +127,9 @@ let utils = {
 
   cloneDeep,
 
-  merge
+  merge,
+  arg2bool,
+  arg2number
 }
 
 const moduleUtils = function (name = 'utils') {
@@ -142,7 +146,8 @@ const moduleUtils = function (name = 'utils') {
 
 const $ = {
   utils: utils,
-  moduleUtils: moduleUtils
+  moduleUtils: moduleUtils,
+  ...utils
 }
 
 module.exports = $

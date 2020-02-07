@@ -12,6 +12,88 @@ function _typeof(obj) {
   return _typeof(obj);
 }
 
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+function _objectSpread(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+    var ownKeys = Object.keys(source);
+
+    if (typeof Object.getOwnPropertySymbols === 'function') {
+      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+      }));
+    }
+
+    ownKeys.forEach(function (key) {
+      _defineProperty(target, key, source[key]);
+    });
+  }
+
+  return target;
+}
+
+// 参数值转为boolean
+function arg2bool(value) {
+  if (value === undefined) return value;
+
+  var type = _typeof(value);
+
+  if (type === 'boolean') {
+    return value;
+  } else if (type === 'string') {
+    if (value === 'true') return true;
+    return !!Number(value);
+  } else if (type === 'number') {
+    return !!value;
+  }
+
+  return false;
+} // 参数值转为数字
+
+
+function arg2number(value) {
+  if (value === undefined) return value;
+
+  var type = _typeof(value);
+
+  if (type === 'number') {
+    return value;
+  } else if (type === 'boolean') {
+    return value ? 1 : 0;
+  } else if (type === 'string') {
+    if (value === 'false') {
+      return 0;
+    } else if (value === 'true') {
+      return 1;
+    } else {
+      return Number(value);
+    }
+  }
+
+  return 0;
+}
+
+var argv = {
+  arg2bool: arg2bool,
+  arg2number: arg2number
+};
+
+var arg2bool$1 = argv.arg2bool,
+    arg2number$1 = argv.arg2number;
 var argsClass = '[object Arguments]';
 var arrayClass = '[object Array]';
 var boolClass = '[object Boolean]';
@@ -142,7 +224,9 @@ var utils = {
     return uri;
   },
   cloneDeep: cloneDeep,
-  merge: merge
+  merge: merge,
+  arg2bool: arg2bool$1,
+  arg2number: arg2number$1
 };
 
 var moduleUtils = function moduleUtils() {
@@ -157,10 +241,11 @@ var moduleUtils = function moduleUtils() {
   };
 };
 
-var $ = {
+var $ = _objectSpread({
   utils: utils,
   moduleUtils: moduleUtils
-};
+}, utils);
+
 var lib = $;
 
 export default lib;

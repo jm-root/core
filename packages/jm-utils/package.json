@@ -1,6 +1,6 @@
 {
   "name": "jm-utils",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "utils",
   "main": "index.js",
   "module": "./dist/index.esm.js",

@@ -1,5 +1,8 @@
 # History
 
+## 1.0.5 / 2020-02-07
+- arg2bool, arg2number
+
 ## 1.0.3 / 2018-01-24
 - fixed: cloneDeep
 
