@@ -2,11 +2,11 @@
   "name": "jm-err",
   "version": "1.0.7",
   "description": "common error defines",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "module": "./dist/index.esm.js",
   "scripts": {
     "build": "npx rollup -c rollup.config.js",
-    "test": "jest"
+    "test": "npx jest"
   },
   "repository": {
     "type": "git",

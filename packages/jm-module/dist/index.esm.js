@@ -29,9 +29,7 @@ function _createClass(Constructor, protoProps, staticProps) {
  * Class representing a modulable object.
  *
  */
-var Modulable =
-/*#__PURE__*/
-function () {
+var Modulable = /*#__PURE__*/function () {
   /**
      * Create an modulable object.
      */
@@ -105,13 +103,12 @@ var M = {
   _modules: {},
   use: prototype.use,
   unuse: prototype.unuse
-  /**
-   * enable modulable support for obj
-   * @param {Object} obj target object
-   * @return {boolean}
-   */
-
 };
+/**
+ * enable modulable support for obj
+ * @param {Object} obj target object
+ * @return {boolean}
+ */
 
 var enableModule = function enableModule(obj) {
   if (obj.use !== undefined) return false;

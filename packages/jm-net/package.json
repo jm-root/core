@@ -2,11 +2,11 @@
   "name": "jm-net",
   "version": "0.0.4",
   "description": "net",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "module": "./dist/index.esm.js",
   "scripts": {
     "build": "npx rollup -c rollup.config.js",
-    "test": "jest"
+    "test": "npx jest"
   },
   "repository": {
     "type": "git",

@@ -1,7 +1,5 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -33,9 +31,7 @@ function _createClass(Constructor, protoProps, staticProps) {
  * Class representing a modulable object.
  *
  */
-var Modulable =
-/*#__PURE__*/
-function () {
+var Modulable = /*#__PURE__*/function () {
   /**
      * Create an modulable object.
      */
@@ -109,13 +105,12 @@ var M = {
   _modules: {},
   use: prototype.use,
   unuse: prototype.unuse
-  /**
-   * enable modulable support for obj
-   * @param {Object} obj target object
-   * @return {boolean}
-   */
-
 };
+/**
+ * enable modulable support for obj
+ * @param {Object} obj target object
+ * @return {boolean}
+ */
 
 var enableModule = function enableModule(obj) {
   if (obj.use !== undefined) return false;
@@ -152,5 +147,5 @@ var $ = {
 };
 var lib = $;
 
-exports.default = lib;
+module.exports = lib;
 //# sourceMappingURL=index.js.map

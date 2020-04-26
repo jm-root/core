@@ -1,7 +1,5 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
 var zh_CN = {
   'Success': '成功',
   'Fail': '失败',
@@ -26,14 +24,13 @@ var zh_CN = {
 
 var lngs = {
   zh_CN: zh_CN
-  /**
-   * translate
-   * @param {string} msg - msg to be translate
-   * @param {string} lng - language
-   * @return {String | null}
-   */
-
 };
+/**
+ * translate
+ * @param {string} msg - msg to be translate
+ * @param {string} lng - language
+ * @return {String | null}
+ */
 
 var locale = function locale(msg, lng) {
   if (!lng || !lngs[lng]) return null;
@@ -227,5 +224,5 @@ var $ = {
 };
 var lib = $;
 
-exports.default = lib;
+module.exports = lib;
 //# sourceMappingURL=index.js.map

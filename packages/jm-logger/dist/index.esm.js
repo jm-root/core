@@ -29,9 +29,7 @@ var levels = {
 
 function none() {}
 
-var Logger =
-/*#__PURE__*/
-function () {
+var Logger = /*#__PURE__*/function () {
   function Logger() {
     var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
