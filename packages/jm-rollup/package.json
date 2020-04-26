@@ -1,6 +1,6 @@
 {
   "name": "jm-rollup",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "rollup config",
   "main": "./lib/index",
   "scripts": {
@@ -23,8 +23,7 @@
     "url": "https://github.com/core/issues"
   },
   "homepage": "https://github.com/core",
-  "dependencies": {},
-  "devDependencies": {
+  "dependencies": {
     "@babel/core": "^7.9.0",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-proposal-object-rest-spread": "^7.9.5",

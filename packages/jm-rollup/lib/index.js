@@ -2,18 +2,19 @@ const { join } = require('path')
 const commonjs = require('@rollup/plugin-commonjs')
 const babel = require('rollup-plugin-babel')
 
-module.exports = function (cwd) {
-  const input = join(cwd, 'lib/index.js')
+module.exports = function (cwd, opts = {}) {
+  const { inputFileName = 'lib/index', outputFileName = `dist/index` } = opts
+  const input = join(cwd, `${inputFileName}`)
   const output = [
     {
       format: 'es',
       sourcemap: true,
-      file: join(cwd, 'dist/index.esm.js')
+      file: join(cwd, `${outputFileName}.esm.js`)
     },
     {
       format: 'cjs',
       sourcemap: true,
-      file: join(cwd, 'dist/index.js')
+      file: join(cwd, `${outputFileName}.js`)
     }
   ]
   const plugins = [
