@@ -1,7 +1,7 @@
 const event = require('jm-event')
 
-const PingTimeout = 60000 // 默认心跳时间 60 秒
-const PongTimeout = 10000 // 默认响应超时时间 10 秒
+const PingTimeout = 30000 // 默认心跳时间 30 秒
+const PongTimeout = 5000 // 默认响应超时时间 5 秒
 
 class HeartBeat {
   constructor (opts = {}) {

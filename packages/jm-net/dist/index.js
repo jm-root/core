@@ -59,9 +59,9 @@ function _nonIterableSpread() {
   throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 
-var PingTimeout = 60000; // 默认心跳时间 60 秒
+var PingTimeout = 30000; // 默认心跳时间 30 秒
 
-var PongTimeout = 10000; // 默认响应超时时间 10 秒
+var PongTimeout = 5000; // 默认响应超时时间 5 秒
 
 var HeartBeat = /*#__PURE__*/function () {
   function HeartBeat() {
