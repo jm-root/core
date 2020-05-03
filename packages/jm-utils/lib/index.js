@@ -1,75 +1,6 @@
 const { arg2bool, arg2number } = require('./argv')
-
-let argsClass = '[object Arguments]'
-let arrayClass = '[object Array]'
-let boolClass = '[object Boolean]'
-let dateClass = '[object Date]'
-let funcClass = '[object Function]'
-let numberClass = '[object Number]'
-let objectClass = '[object Object]'
-let regexpClass = '[object RegExp]'
-let stringClass = '[object String]'
-
-/** Used to identify object classifications that `cloneDeep` supports */
-let cloneableClasses = {}
-cloneableClasses[funcClass] = false
-cloneableClasses[argsClass] = true
-cloneableClasses[arrayClass] = true
-cloneableClasses[boolClass] = true
-cloneableClasses[dateClass] = true
-cloneableClasses[numberClass] = true
-cloneableClasses[objectClass] = true
-cloneableClasses[regexpClass] = true
-cloneableClasses[stringClass] = true
-
-let ctorByClass = {}
-ctorByClass[arrayClass] = Array
-ctorByClass[boolClass] = Boolean
-ctorByClass[dateClass] = Date
-ctorByClass[objectClass] = Object
-ctorByClass[numberClass] = Number
-ctorByClass[regexpClass] = RegExp
-ctorByClass[stringClass] = String
-
-/** Used to match regexp flags from their coerced string values */
-let reFlags = /\w*$/
-
-let cloneDeep = function (obj) {
-  if (typeof obj !== 'object' || !obj) return obj
-  if (Array.isArray(obj)) {
-    let ret = []
-    obj.forEach(function (item) {
-      ret.push(cloneDeep(item))
-    })
-    return ret
-  }
-  let className = toString.call(obj)
-  if (!cloneableClasses[className]) {
-    return obj
-  }
-  const Ctor = ctorByClass[className]
-  switch (className) {
-    case boolClass:
-    case dateClass:
-      return new Ctor(+obj)
-
-    case numberClass:
-    case stringClass:
-      return new Ctor(obj)
-
-    case regexpClass:
-      return Ctor(obj.source, reFlags.exec(obj))
-  }
-
-  let ret = {}
-  let keys = Object.keys(obj)
-  keys.forEach(function (key) {
-    ret[key] = cloneDeep(obj[key])
-  })
-  return ret
-}
-
-let merge = function (obj1, obj2) {
+const cloneDeep = require('./clonedeep')
+function merge (obj1, obj2) {
   if (typeof obj1 !== 'object' || !obj1) return obj1
   if (Array.isArray(obj1)) {
     obj2.forEach(function (item) {
@@ -90,7 +21,7 @@ let merge = function (obj1, obj2) {
   return obj1
 }
 
-let utils = {
+const utils = {
   // 高效slice
   slice: (a, start, end) => {
     start = start || 0
@@ -125,8 +56,15 @@ let utils = {
     return uri
   },
 
-  cloneDeep,
+  // ' a, b, c   ' => ['a', 'b', 'c']
+  splitAndTrim: (value, sep = ',') => {
+    if (value && typeof value === 'string') {
+      value = value.split(sep)
+      return value.map(item => item.trim())
+    }
+  },
 
+  cloneDeep,
   merge,
   arg2bool,
   arg2number
@@ -145,8 +83,8 @@ const moduleUtils = function (name = 'utils') {
 }
 
 const $ = {
-  utils: utils,
-  moduleUtils: moduleUtils,
+  utils,
+  moduleUtils,
   ...utils
 }
 

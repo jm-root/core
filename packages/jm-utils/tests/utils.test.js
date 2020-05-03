@@ -57,4 +57,8 @@ describe('router', () => {
     obj2 = [{ a: 2 }, { c: 2 }]
     console.log(utils.merge(obj1, obj2))
   })
+
+  test('splitAndTrim', function () {
+    console.log(utils.splitAndTrim(' a, b, c   '))
+  })
 })

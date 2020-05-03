@@ -111,8 +111,6 @@ var argv = {
   arg2number: arg2number
 };
 
-var arg2bool$1 = argv.arg2bool,
-    arg2number$1 = argv.arg2number;
 var argsClass = '[object Arguments]';
 var arrayClass = '[object Array]';
 var boolClass = '[object Boolean]';
@@ -186,7 +184,12 @@ var cloneDeep = function cloneDeep(obj) {
   return ret;
 };
 
-var merge = function merge(obj1, obj2) {
+var clonedeep = cloneDeep;
+
+var arg2bool$1 = argv.arg2bool,
+    arg2number$1 = argv.arg2number;
+
+function merge(obj1, obj2) {
   if (_typeof(obj1) !== 'object' || !obj1) return obj1;
 
   if (Array.isArray(obj1)) {
@@ -207,7 +210,7 @@ var merge = function merge(obj1, obj2) {
     }
   });
   return obj1;
-};
+}
 
 var utils = {
   // 高效slice
@@ -242,7 +245,18 @@ var utils = {
     if (idx !== -1) uri = uri.substr(0, idx);
     return uri;
   },
-  cloneDeep: cloneDeep,
+  // ' a, b, c   ' => ['a', 'b', 'c']
+  splitAndTrim: function splitAndTrim(value) {
+    var sep = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ',';
+
+    if (value && typeof value === 'string') {
+      value = value.split(sep);
+      return value.map(function (item) {
+        return item.trim();
+      });
+    }
+  },
+  cloneDeep: clonedeep,
   merge: merge,
   arg2bool: arg2bool$1,
   arg2number: arg2number$1
