@@ -1,5 +1,8 @@
 # History
 
+## 1.0.6 / 2020-02=5-03
+- splitAndTrim
+
 ## 1.0.5 / 2020-02-07
 - arg2bool, arg2number
 
