@@ -1,5 +1,9 @@
 # History
 
+## 1.0.8 / 2020-05-17
+- refactor
+- docs
+
 ## 1.0.7 / 2019-12-18
 - just change version
 
