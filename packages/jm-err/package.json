@@ -1,7 +1,7 @@
 {
   "name": "jm-err",
-  "version": "1.0.7",
-  "description": "common error defines",
+  "version": "1.0.8",
+  "description": "common error defines as JSON format",
   "main": "./dist/index.js",
   "module": "./dist/index.esm.js",
   "scripts": {

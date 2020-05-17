@@ -1,8 +1,3 @@
-/**
- * err module.
- * @module err
- */
-
 const t = require('./locale')
 
 function isNumber (obj) {
@@ -13,7 +8,7 @@ function isNumber (obj) {
  * common error defines
  *
  */
-let Err = {
+const Err = {
   SUCCESS: {
     err: 0,
     msg: 'Success'
@@ -133,6 +128,28 @@ function errMsg (msg, opts) {
   return msg
 }
 
+function isValidStatus (status) {
+  return status !== undefined && isNumber(status) && status >= 100 && status <= 600
+}
+
+/**
+ * return an Err object
+ * @param {Object|String} E Err object or a message
+ * @return {Err}
+ */
+function validErr (E) {
+  typeof E === 'string' && (E = { msg: E })
+  const { SUCCESS, FAIL, FA_INTERNALERROR } = Err
+  let { err = FAIL.err, status } = E
+  if (!isValidStatus(status)) {
+    isValidStatus(err) && (status = err)
+    err === SUCCESS.err && (status = 200)
+  }
+  !isValidStatus(status) && (status = FA_INTERNALERROR.err)
+  Object.assign(E, { err, status })
+  return E
+}
+
 /**
  * return an Error Object
  * @param {Object|String} E Err object or a message template
@@ -140,22 +157,27 @@ function errMsg (msg, opts) {
  * @return {Error}
  */
 function err (E, opts) {
-  if (typeof E === 'string') {
-    E = {
-      msg: E
-    }
+  if (E instanceof Error) {
+    const { code, status, message: msg, data } = E
+    const EE = validErr({ err: code, status })
+    Object.assign(E, EE)
+    data || (E.data = {
+      ...EE,
+      msg
+    })
+    return E
   }
-  let msg = errMsg(E.msg || E.message, opts)
-  let code = E.err
-  code === undefined && (code = Err.FAIL.err)
-  let status = Err.FA_INTERNALERROR.err
-  if (code === Err.SUCCESS.err) status = 200
-  if (isNumber(code) && code >= 200 && code <= 600) status = code
-  E.status !== undefined && (status = E.status)
-  let e = new Error(msg)
-  e.code = code
-  e.status = status
-  e.data = Object.assign(E, { err: code, msg, status })
+  E = validErr(E)
+  const { err, status } = E
+  const msg = errMsg(E.msg || E.message, opts)
+  const e = new Error(msg)
+  Object.assign(e, {
+    code: err,
+    status,
+    data: {
+      ...E,
+      msg
+    } })
   return e
 }
 
@@ -185,12 +207,12 @@ function disableErr (obj, name = 'Err') {
   delete obj.errMsg
 }
 
-let $ = {
-  Err: Err,
-  errMsg: errMsg,
-  err: err,
-  enableErr: enableErr,
-  disableErr: disableErr
+module.exports = {
+  Err,
+  validErr,
+  errMsg,
+  err,
+  t,
+  enableErr, // deprecated
+  disableErr // deprecated
 }
-
-module.exports = $

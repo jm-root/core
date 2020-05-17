@@ -1,17 +1,35 @@
-const error = require('../lib')
-const { Err, enableErr, disableErr } = error
+const { Err, validErr, errMsg, err, t } = require('../lib')
 
-let o = {}
+function isNumber (obj) {
+  return typeof obj === 'number' && isFinite(obj)
+}
+function isValidStatus (status) {
+  return status !== undefined && isNumber(status) && status >= 100 && status <= 600
+}
 
 describe('err', function () {
-  it('enableErr', function () {
-    expect(enableErr(o)).toBeTruthy()
-    expect(enableErr(o)).not.toBeTruthy()
+  it('validErr', function () {
+    // console.log(validErr('test'))
+    // console.log(validErr(Err.FAIL))
+    for (const key of Object.keys(Err)) {
+      const item = Err[key]
+      const { status } = validErr(item)
+      expect(isValidStatus(status)).toBeTruthy()
+      if (isValidStatus(item.status)) {
+        expect(status === item.status).toBeTruthy()
+      }
+      if (isValidStatus(item.err) && !isValidStatus(item.status)) {
+        expect(status === item.err).toBeTruthy()
+      }
+      if (!isValidStatus(item.err) && !isValidStatus(item.status)) {
+        expect(status === 500).toBeTruthy()
+      }
+    }
   })
 
   it('errMsg', function () {
     // eslint-disable-next-line
-    let msg = error.errMsg('err param: ${param} paramNum: ${num}', {
+    let msg = errMsg('err param: ${param} paramNum: ${num}', {
       param: 'abc',
       num: 123
     })
@@ -20,11 +38,17 @@ describe('err', function () {
 
   it('err', function () {
     let E = Err['SUCCESS']
-    let e = error.err(E)
+    let e = err(E)
     expect(e.message === E.msg).toBeTruthy()
 
+    const ee = new Error('test')
+    ee.data = { name: '12' }
+    e = err(ee)
+    expect(e.data.name === ee.data.name).toBeTruthy()
+    // console.log(e)
+
     // eslint-disable-next-line
-    e = error.err('err param: ${param} paramNum: ${num}', {
+    e = err('err param: ${param} paramNum: ${num}', {
       param: 'abc',
       num: 123
     })
@@ -32,14 +56,8 @@ describe('err', function () {
   })
 
   it('t', function () {
-    let msg = Err.t(Err.FAIL.msg, 'zh_CN')
-    console.log(msg)
+    const msg = t(Err.FAIL.msg, 'zh_CN')
+    // console.log(msg)
     expect(msg).toBeTruthy()
-  })
-
-  it('disableErr', function () {
-    enableErr(o)
-    disableErr(o)
-    expect(!o.Err).toBeTruthy()
   })
 })

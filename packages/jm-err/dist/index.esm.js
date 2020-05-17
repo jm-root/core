@@ -1,3 +1,52 @@
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+    if (enumerableOnly) symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    });
+    keys.push.apply(keys, symbols);
+  }
+
+  return keys;
+}
+
+function _objectSpread2(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+
+    if (i % 2) {
+      ownKeys(Object(source), true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+      ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+  }
+
+  return target;
+}
+
 var zh_CN = {
   'Success': '成功',
   'Fail': '失败',
@@ -34,11 +83,6 @@ var locale = function locale(msg, lng) {
   if (!lng || !lngs[lng]) return null;
   return lngs[lng][msg];
 };
-
-/**
- * err module.
- * @module err
- */
 
 function isNumber(obj) {
   return typeof obj === 'number' && isFinite(obj);
@@ -150,6 +194,41 @@ function errMsg(msg, opts) {
 
   return msg;
 }
+
+function isValidStatus(status) {
+  return status !== undefined && isNumber(status) && status >= 100 && status <= 600;
+}
+/**
+ * return an Err object
+ * @param {Object|String} E Err object or a message
+ * @return {Err}
+ */
+
+
+function validErr(E) {
+  typeof E === 'string' && (E = {
+    msg: E
+  });
+  var SUCCESS = Err.SUCCESS,
+      FAIL = Err.FAIL,
+      FA_INTERNALERROR = Err.FA_INTERNALERROR;
+  var _E = E,
+      _E$err = _E.err,
+      err = _E$err === void 0 ? FAIL.err : _E$err,
+      status = _E.status;
+
+  if (!isValidStatus(status)) {
+    isValidStatus(err) && (status = err);
+    err === SUCCESS.err && (status = 200);
+  }
+
+  !isValidStatus(status) && (status = FA_INTERNALERROR.err);
+  Object.assign(E, {
+    err: err,
+    status: status
+  });
+  return E;
+}
 /**
  * return an Error Object
  * @param {Object|String} E Err object or a message template
@@ -159,26 +238,35 @@ function errMsg(msg, opts) {
 
 
 function err(E, opts) {
-  if (typeof E === 'string') {
-    E = {
-      msg: E
-    };
+  if (E instanceof Error) {
+    var _E2 = E,
+        code = _E2.code,
+        _status = _E2.status,
+        _msg = _E2.message,
+        data = _E2.data;
+    var EE = validErr({
+      err: code,
+      status: _status
+    });
+    Object.assign(E, EE);
+    data || (E.data = _objectSpread2({}, EE, {
+      msg: _msg
+    }));
+    return E;
   }
 
+  E = validErr(E);
+  var _E3 = E,
+      err = _E3.err,
+      status = _E3.status;
   var msg = errMsg(E.msg || E.message, opts);
-  var code = E.err;
-  code === undefined && (code = Err.FAIL.err);
-  var status = Err.FA_INTERNALERROR.err;
-  if (code === Err.SUCCESS.err) status = 200;
-  if (isNumber(code) && code >= 200 && code <= 600) status = code;
-  E.status !== undefined && (status = E.status);
   var e = new Error(msg);
-  e.code = code;
-  e.status = status;
-  e.data = Object.assign(E, {
-    err: code,
-    msg: msg,
-    status: status
+  Object.assign(e, {
+    code: err,
+    status: status,
+    data: _objectSpread2({}, E, {
+      msg: msg
+    })
   });
   return e;
 }
@@ -213,14 +301,25 @@ function disableErr(obj) {
   delete obj.errMsg;
 }
 
-var $ = {
+var lib = {
   Err: Err,
+  validErr: validErr,
   errMsg: errMsg,
   err: err,
+  t: locale,
   enableErr: enableErr,
-  disableErr: disableErr
+  // deprecated
+  disableErr: disableErr // deprecated
+
 };
-var lib = $;
+var lib_1 = lib.Err;
+var lib_2 = lib.validErr;
+var lib_3 = lib.errMsg;
+var lib_4 = lib.err;
+var lib_5 = lib.t;
+var lib_6 = lib.enableErr;
+var lib_7 = lib.disableErr;
 
 export default lib;
+export { lib_1 as Err, lib_7 as disableErr, lib_6 as enableErr, lib_4 as err, lib_3 as errMsg, lib_5 as t, lib_2 as validErr };
 //# sourceMappingURL=index.esm.js.map
