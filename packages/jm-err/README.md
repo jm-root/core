@@ -2,7 +2,7 @@ English | [简体中文](./README.zh-CN.md)
 
 # jm-err
 
-define error info as JSON format.
+common error defines as JSON format.
  
 used for return json format info on RESTful api.
 
