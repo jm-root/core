@@ -1,0 +1,29 @@
+{
+  "name": "jm-hasher",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./lib/index",
+  "scripts": {
+    "test": "jest",
+    "tsc": "tsc && standard --fix"
+  },
+  "keywords": [
+    "typescript",
+    "jm-hasher"
+  ],
+  "author": "harold3c2",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^26.0.1",
+    "standard": "^14.3.4",
+    "typescript": "^3.9.2"
+  },
+  "dependencies": {
+    "sm3": "^1.0.3"
+  },
+  "standard": {
+    "env": [
+      "jest"
+    ]
+  }
+}
