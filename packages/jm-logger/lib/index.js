@@ -41,16 +41,16 @@ class Logger {
   }
 }
 
-let loggers = {}
+const loggers = {}
 
-let getLogger = (loggerCategoryName = 'default') => {
+const getLogger = (loggerCategoryName = 'default') => {
   if (!loggers[loggerCategoryName]) {
     loggers[loggerCategoryName] = new Logger({ category: loggerCategoryName })
   }
   return loggers[loggerCategoryName]
 }
 
-let moduleLogger = function (name = 'logger') {
+const moduleLogger = function (name = 'logger') {
   let obj = this
   obj.getLogger = getLogger
   obj.logger = getLogger()
@@ -63,10 +63,8 @@ let moduleLogger = function (name = 'logger') {
   }
 }
 
-let $ = {
+module.exports = {
   logger: getLogger(),
-  getLogger: getLogger,
-  moduleLogger: moduleLogger
+  getLogger,
+  moduleLogger // deprecated
 }
-
-module.exports = $

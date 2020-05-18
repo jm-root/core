@@ -1,69 +1,55 @@
-# jm-module
-use and unuse modules
+# 模块 jm-module
 
-```javascript
-// nodejs
-const mdl = require('jm-module');
+在开发一些通用场合的应用时，为了方便扩展, 经常采用了模块化(插件式)设计理念。
 
-// define a modulabe named 'test'
-var mdlTest = function(opts) {
-    var app = this;
-    app.test = function () {
-        return true;
-    };
+jm-module 正为此而生, 一切皆模块!
 
-    return {
-        name: 'test',
-        unuse: function () {
-            delete app.test;
-        }
-    }
-};
+## 特性
 
-function test(obj) {
-    obj.use(mdlTest);
-    console.log('test: %j', obj.test());
-    obj.unuse('test');
-}
+1. 支持浏览器
+1. 支持模块动态加载和卸载
 
-var m = new mdl.Modulable();
-test(m);
+## 安装
 
-var o = {};
-mdl.enableModule(o);
-test(o);
-
+```bash
+npm i jm-module
 ```
 
+## 模块的定义
+
 ```javascript
-// es6
-import mdl from 'jm-module';
-
-let mdlTest = function (opts) {
-    var app = this;
-    app.test = () => {
-        return true;
-    };
-
+module.exports = function (name) {
+    const $ = this
+    $[name] = {
+        toString: function () {
+            return 'this is a module'
+        }
+    }
     return {
-        name: 'test',
-        unuse: () => {
-            delete app.test;
-        },
-    };
-};
-
-function test(obj) {
-    obj.use(mdl);
-    obj.test();
-    obj.unuse('test');
+        name,
+        unuse: function () {
+            delete $[name]
+        }
+    }
 }
+```
 
-let m = new module.Modulable();
-test(m);
+## 模块的加载、使用和卸载
 
-let o = {};
-module.enableModule(o);
-test(o);
+```javascript
+const {enableModule} = require('jm-module')
+const module1 = require('./module1')
+
+const root = {}
+enableModule(root)
+
+//加载
+root.use(module1)
+
+// 使用加载的模块
+root.module1.toString()
+
+//卸载
+root.unuse ('module1')
 
 ```
