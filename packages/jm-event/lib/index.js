@@ -183,8 +183,8 @@ class EventEmitter {
   }
 }
 
-let prototype = EventEmitter.prototype
-let EM = {
+const prototype = EventEmitter.prototype
+const EM = {
   _events: {},
   on: prototype.on,
   once: prototype.once,
@@ -194,7 +194,7 @@ let EM = {
   listeners: prototype.listeners
 }
 
-let enableEvent = (obj, opts = {}) => {
+const enableEvent = (obj, opts = {}) => {
   if (obj.emit !== undefined && !opts.force) return false
   let _events = null
   if (obj.emit !== undefined) {
@@ -209,17 +209,15 @@ let enableEvent = (obj, opts = {}) => {
   return true
 }
 
-let disableEvent = (obj) => {
+const disableEvent = (obj) => {
   if (obj.emit === undefined) return
   for (let key in EM) {
     delete obj[key]
   }
 }
 
-let $ = {
-  EventEmitter: EventEmitter,
-  enableEvent: enableEvent,
-  disableEvent: disableEvent
+module.exports = {
+  EventEmitter,
+  enableEvent,
+  disableEvent
 }
-
-module.exports = $
