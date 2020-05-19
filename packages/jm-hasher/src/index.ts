@@ -1,6 +1,6 @@
 import crypto = require("crypto")
 const sm3 = require("sm3")
-class hasher {
+class Hasher {
   static md5(value: string): string {
     return crypto.createHash('md5').update(value).digest('hex')
   }
@@ -11,4 +11,4 @@ class hasher {
     return sm3(value)
   }
 }
-export = hasher
+export = Hasher
