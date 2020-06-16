@@ -115,18 +115,47 @@ HeartBeat.PingTimeout = PingTimeout;
 HeartBeat.PongTimeout = PongTimeout;
 var heartbeat = HeartBeat;
 
+var _async = function () {
+  try {
+    if (isNaN.apply(null, {})) {
+      return function (f) {
+        return function () {
+          try {
+            return Promise.resolve(f.apply(this, arguments));
+          } catch (e) {
+            return Promise.reject(e);
+          }
+        };
+      };
+    }
+  } catch (e) {}
+
+  return function (f) {
+    // Pre-ES5.1 JavaScript runtimes don't accept array-likes in Function.apply
+    return function () {
+      var args = [];
+
+      for (var i = 0; i < arguments.length; i++) {
+        args[i] = arguments[i];
+      }
+
+      try {
+        return Promise.resolve(f.apply(this, args));
+      } catch (e) {
+        return Promise.reject(e);
+      }
+    };
+  };
+}();
+
 function _await(value, then, direct) {
   if (direct) {
     return then ? then(value) : value;
   }
 
-  if (!value || !value.then) {
-    value = Promise.resolve(value);
-  }
-
+  value = Promise.resolve(value);
   return then ? value.then(then) : value;
 }
-
 var PingFailedCode = 4999; // 心跳失败后，关闭 code, 4000 至 4999 之间
 
 var MaxReconnectAttempts = 0; // 默认重试次数0 表示无限制
@@ -193,26 +222,22 @@ var WebSocket = /*#__PURE__*/function () {
     }
   }, {
     key: "send",
-    value: function send() {
-      try {
-        var _this3 = this,
-            _arguments2 = arguments;
+    value: _async(function () {
+      var _this2 = this,
+          _arguments = arguments;
 
-        return _await(_this3.onReady(), function () {
-          try {
-            var _this3$ws;
+      return _await(_this2.onReady(), function () {
+        try {
+          var _this2$ws;
 
-            (_this3$ws = _this3.ws).send.apply(_this3$ws, _toConsumableArray(_arguments2));
+          (_this2$ws = _this2.ws).send.apply(_this2$ws, _toConsumableArray(_arguments));
 
-            _this3.heart.reset();
-          } catch (e) {
-            throw e;
-          }
-        });
-      } catch (e) {
-        return Promise.reject(e);
-      }
-    }
+          _this2.heart.reset();
+        } catch (e) {
+          throw e;
+        }
+      });
+    })
   }, {
     key: "close",
     value: function close() {
@@ -229,69 +254,65 @@ var WebSocket = /*#__PURE__*/function () {
     }
   }, {
     key: "_connect",
-    value: function _connect() {
-      try {
-        var _this5 = this;
+    value: _async(function () {
+      var _this3 = this;
 
-        var uri = _this5.uri;
-        if (!uri) throw new Error('invalid uri');
-        if (_this5.ws) return;
+      var uri = _this3.uri;
+      if (!uri) throw new Error('invalid uri');
+      if (_this3.ws) return;
 
-        _this5.emit('connect');
+      _this3.emit('connect');
 
-        return new Promise(function (resolve, reject) {
-          var ws = null;
+      return new Promise(function (resolve, reject) {
+        var ws = null;
 
-          try {
-            ws = new _this5.Adapter(uri);
-          } catch (e) {
-            return reject(e);
+        try {
+          ws = new _this3.Adapter(uri);
+        } catch (e) {
+          return reject(e);
+        }
+
+        ws.on('message', function (opts) {
+          _this3.heart.reset();
+
+          _this3.emit('message', opts);
+        }).on('open', function (opts) {
+          _this3.emit('open', opts);
+
+          _this3.ws = ws;
+          _this3.connecting = null;
+
+          _this3.heart.reset();
+
+          _this3._stopReconnect();
+
+          resolve();
+        }).on('error', function (e) {
+          _this3.emit('error', e);
+
+          reject(e);
+        }).on('close', function (opts) {
+          _this3.emit('close', opts);
+
+          _this3.heart.stop();
+
+          _this3.ws = null;
+          _this3.connecting = null;
+          var _opts$wasClean = opts.wasClean,
+              wasClean = _opts$wasClean === void 0 ? true : _opts$wasClean,
+              code = opts.code;
+          if (wasClean && code !== _this3.pingFailedCode) return;
+
+          if (_this3.reconnect) {
+            _this3._reconnect();
           }
-
-          ws.on('message', function (opts) {
-            _this5.heart.reset();
-
-            _this5.emit('message', opts);
-          }).on('open', function (opts) {
-            _this5.emit('open', opts);
-
-            _this5.ws = ws;
-            _this5.connecting = null;
-
-            _this5.heart.reset();
-
-            _this5._stopReconnect();
-
-            resolve();
-          }).on('error', function (e) {
-            _this5.emit('error', e);
-
-            reject(e);
-          }).on('close', function (opts) {
-            _this5.emit('close', opts);
-
-            _this5.heart.stop();
-
-            _this5.ws = null;
-            _this5.connecting = null;
-            var _opts$wasClean = opts.wasClean,
-                wasClean = _opts$wasClean === void 0 ? true : _opts$wasClean,
-                code = opts.code;
-            if (wasClean && code !== _this5.pingFailedCode) return;
-
-            if (_this5.reconnect) {
-              _this5._reconnect();
-            }
-          });
         });
-      } catch (e) {
-        return Promise.reject(e);
-      }
-    }
+      });
+    })
   }, {
     key: "_reconnect",
     value: function _reconnect() {
-      var _this6 = this;
+      var _this4 = this;
 
       if (this.maxReconnectAttempts && this.reconnectAttempts >= this.maxReconnectAttempts) {
         this.emit('connectFail');
@@ -304,9 +325,9 @@ var WebSocket = /*#__PURE__*/function () {
       this.reconnectAttempts++;
       this.emit('reconnect');
       this._reconnectTimer = setTimeout(function () {
-        _this6._reconnectTimer = null;
+        _this4._reconnectTimer = null;
 
-        _this6.connect()["catch"](function () {});
+        _this4.connect()["catch"](function () {});
       }, this.reconnectTimeout);
     }
   }, {
